@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%-5level] %-6marker {%-20logger{0}} %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="ASYNC_CONSOLE" queueSize="512" class="ch.qos.logback.classic.AsyncAppender">-->
+        <appender-ref ref="CONSOLE"/>-->
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/smppg.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/%d{yyyy-MM-dd\\HH}_smppg.xlog</fileNamePattern>
+            <maxHistory>240</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{YYYY-MM-dd HH:mm:ss.SSS} [%-5level] %-6marker {%-20logger{0}} %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ASYNC_FILE" class="ch.qos.logback.classic.AsyncAppender" >
+        <queueSize>1024</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <appender-ref ref="FILE"/>
+    </appender>
+
+    <appender name="SENTRY" class="io.sentry.logback.SentryAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+    </appender>
+
+    <logger name="org.mongodb" level="ERROR"/>
+    <logger name="io.netty" level="ERROR"/>
+    <logger name="sun.misc" level="ERROR"/>
+    <logger name="java.nio" level="ERROR"/>
+
+    <root level="debug">
+        <appender-ref ref="ASYNC_CONSOLE"/>
+        <appender-ref ref="ASYNC_FILE"/>
+        <appender-ref ref="SENTRY"/>
+    </root>
+
+</configuration>

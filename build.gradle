@@ -1,17 +1,27 @@
 plugins {
     id 'java'
+    id 'application'
+    id 'idea'
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
+group 'com.smitresoft.smpp.smppg'
+version '1.0'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+
+    implementation 'org.restcomm.smpp:ch-smpp:5.1.0-113'
+
+    // LOGGER
+    implementation 'ch.qos.logback:logback-core:1.4.5'
+    implementation 'ch.qos.logback:logback-classic:1.4.5'
+    implementation 'io.sentry:sentry-logback:6.9.0'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
 }
 
 test {
